@@ -19,3 +19,17 @@ exports.register = asyncHandler(async (req, res, next) => {
     data: user,
   });
 });
+
+// @desc Login user
+// @route POST /api/v1/auth/login
+// @access Public
+exports.login = asyncHandler(async (req, res, next) => {
+  res.send('User logged in');
+});
+
+// @desc View account details
+// @route GET /api/v1/auth/login
+// @access Private
+exports.account = asyncHandler(async (req, res, next) => {
+  res.send('Account details');
+});

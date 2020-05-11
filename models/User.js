@@ -17,6 +17,10 @@ const userSchema = new Schema({
     validate: [validator.isEmail, 'Invalid email address'],
     required: 'Please supply email address',
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = model('User', userSchema);
