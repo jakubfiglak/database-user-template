@@ -29,6 +29,10 @@ const UserSchema = new Schema({
     ],
     select: false,
   },
+  role: {
+    type: String,
+    default: 'user',
+  },
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   createdAt: {
