@@ -8,22 +8,24 @@ const ErrorResponse = require('../utils/errorResponse');
 exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, password, passwordConfirm } = req.body;
 
+  let user = await User.findOne({ email });
+
+  if (user) {
+    return next(new ErrorResponse('User already exists', 400));
+  }
+
   if (password !== passwordConfirm) {
     return next(new ErrorResponse('Passwords do not match', 400));
   }
 
-  // Create user
-  // const user = new User({
-  //   name,
-  //   email,
-  // });
+  user = await User.create({ name, email, password });
 
-  const user = await User.create({ name, email, password });
+  const token = user.getJwt();
 
   res.status(201).json({
     success: true,
     message: 'Successfully created new user!',
-    data: user,
+    token,
   });
 });
 
@@ -42,8 +44,22 @@ exports.login = asyncHandler(async (req, res, next) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return next(new ErrorResponse('Invalid credentials', 400));
+    return next(new ErrorResponse('Invalid credentials', 401));
   }
+
+  const match = await user.comparePasswords(password);
+
+  if (!match) {
+    return next(new ErrorResponse('Invalid credentials', 401));
+  }
+
+  const token = user.getJwt();
+
+  res.status(201).json({
+    success: true,
+    message: 'Login success!',
+    token,
+  });
 });
 
 // @desc View account details

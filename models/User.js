@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const { Schema, model } = mongoose;
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
   name: {
     type: String,
     required: 'Please supply a name',
@@ -20,7 +22,11 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: 'Please supply a password',
-    select: false,
+    minlength: [6, 'Password has to be min 6 chars long'],
+    match: [
+      /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/,
+      'Password has to contain at least 1 lowercase letter, at least 1 uppercase letter and at least 1 numeric character',
+    ],
   },
   createdAt: {
     type: Date,
@@ -28,4 +34,26 @@ const userSchema = new Schema({
   },
 });
 
-module.exports = model('User', userSchema);
+// Encrypt the password before each model save
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  this.password = await bcrypt.hash(this.password, 10);
+});
+
+// Get JWT token
+UserSchema.methods.getJwt = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
+
+// Password comparison
+UserSchema.methods.comparePasswords = async function (password) {
+  const match = await bcrypt.compare(password, this.password);
+  return match;
+};
+
+module.exports = model('User', UserSchema);
