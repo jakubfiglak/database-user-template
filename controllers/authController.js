@@ -55,7 +55,7 @@ exports.login = asyncHandler(async (req, res, next) => {
 
   const token = user.getJwt();
 
-  res.status(201).json({
+  res.status(200).json({
     success: true,
     message: 'Login success!',
     token,
@@ -78,12 +78,47 @@ exports.account = asyncHandler(async (req, res) => {
 // @route PUT /api/v1/auth/updatedetails
 // @access Private
 exports.updateDetails = asyncHandler(async (req, res) => {
-  res.send('Update account details');
+  const updates = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+
+  const user = await User.findByIdAndUpdate(req.user.id, updates, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: `${req.user.name}'s account details successfully updated!`,
+    data: user,
+  });
 });
 
 // @desc Update password
 // @route PUT /api/v1/auth/updatepassword
 // @access Private
-exports.updatePassword = asyncHandler(async (req, res) => {
-  res.send('Update password');
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+  const { oldPassword, newPassword, newPasswordConfirm } = req.body;
+
+  const user = await User.findById(req.user.id);
+
+  if (!user.comparePasswords(oldPassword)) {
+    return next(new ErrorResponse('Incorrect password', 401));
+  }
+
+  if (newPassword !== newPasswordConfirm) {
+    return next(new ErrorResponse('Passwords do not match', 400));
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  const token = user.getJwt();
+
+  res.status(200).json({
+    success: true,
+    message: 'Password updated successfully!',
+    token,
+  });
 });
