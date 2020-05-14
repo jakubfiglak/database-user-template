@@ -35,12 +35,9 @@ app.use(mongoSanitize());
 // Prevent XSS attacks
 app.use(xss());
 
-// Base url definition
-const baseUrl = '/api/v1';
-
 // Mount routers
-app.use(`${baseUrl}/auth`, auth);
-app.use(`${baseUrl}/users`, users);
+app.use(`${process.env.BASE_URL}/auth`, auth);
+app.use(`${process.env.BASE_URL}/users`, users);
 
 app.use(errorHandler);
 
