@@ -27,6 +27,7 @@ const UserSchema = new Schema({
       /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/,
       'Password has to contain at least 1 lowercase letter, at least 1 uppercase letter and at least 1 numeric character',
     ],
+    select: false,
   },
   createdAt: {
     type: Date,

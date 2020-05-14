@@ -63,8 +63,27 @@ exports.login = asyncHandler(async (req, res, next) => {
 });
 
 // @desc View account details
-// @route GET /api/v1/auth/login
+// @route GET /api/v1/auth/account
 // @access Private
-exports.account = asyncHandler(async (req, res, next) => {
-  res.send('Account details');
+exports.account = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+// @desc Update account details
+// @route PUT /api/v1/auth/updatedetails
+// @access Private
+exports.updateDetails = asyncHandler(async (req, res) => {
+  res.send('Update account details');
+});
+
+// @desc Update password
+// @route PUT /api/v1/auth/updatepassword
+// @access Private
+exports.updatePassword = asyncHandler(async (req, res) => {
+  res.send('Update password');
 });
