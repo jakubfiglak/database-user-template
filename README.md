@@ -29,12 +29,13 @@ This is the template meant to make Node.js apps development easier. It gives you
 
 - authorize - only users with certain roles can visit certain routes, eg.
 
-`router.use(protect);
+```router.use(protect);
 router.use(authorize('admin'));
 
 router.get('/', getUsers);
 router.get('/:id', getUser);
-router.delete('/:id', deleteUser);`
+router.delete('/:id', deleteUser);
+```
 
 ## How to use :floppy_disk:
 
@@ -42,7 +43,7 @@ This is a template repository, so you can create your own repo based on it by cl
 
 ### Create config.env file in config cirectory
 
-`NODE_ENV=development
+```NODE_ENV=development
 PORT=5000
 
 BASE_URL=/api/v1
@@ -57,7 +58,8 @@ SMTP_PORT=2525
 SMTP_EMAIL=
 SMTP_PASSWORD=
 FROM_EMAIL=
-FROM_NAME=`
+FROM_NAME=
+```
 
 ## Credits :raised_hands:
 
