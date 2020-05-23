@@ -4,7 +4,8 @@
   "description": "Express, mongoose, passport template",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "test": "jest --watchAll"
   },
   "author": "Jakub Figlak",
   "license": "ISC",
@@ -28,7 +29,13 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^26.0.1",
     "nodemon": "^2.0.3",
     "prettier": "^2.0.5"
+  },
+  "jest": {
+    "setupFiles": [
+      "config/config"
+    ]
   }
 }
