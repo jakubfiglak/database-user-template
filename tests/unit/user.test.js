@@ -24,6 +24,7 @@ describe('user.comparePasswords', () => {
     _id: new mongoose.Types.ObjectId().toHexString(),
     password: 'password',
   });
+
   it('returns false if passwords do not match', async () => {
     const match = await user.comparePasswords('different password');
     expect(match).toBe(false);
