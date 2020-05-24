@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const User = require('../../models/User');
+const User = require('../../../models/User');
 
 dotenv.config({
   path: '../../config/config.env',
@@ -15,7 +15,7 @@ describe('user.getJwt', () => {
     const user = new User(payload);
     const token = user.getJwt();
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    expect(decoded).toMatchObject({ id: payload._id });
+    expect(decoded).toMatchObject(payload);
   });
 });
 

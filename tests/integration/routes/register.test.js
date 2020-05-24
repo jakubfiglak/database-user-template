@@ -1,6 +1,5 @@
 const request = require('supertest');
-const mongoose = require('mongoose');
-const User = require('../../models/User');
+const User = require('../../../models/User');
 
 let server;
 
@@ -9,7 +8,7 @@ const path = '/api/v1/auth/register';
 describe(path, () => {
   beforeEach(() => {
     // eslint-disable-next-line global-require
-    server = require('../../server');
+    server = require('../../../server');
   });
 
   afterEach(async () => {

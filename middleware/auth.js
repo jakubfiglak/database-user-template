@@ -3,7 +3,7 @@ const ErrorResponse = require('../utils/errorResponse');
 const User = require('../models/User');
 
 // Route protection
-exports.protect = async (req, res, next) => {
+exports.protect = (req, res, next) => {
   let token;
   const auth = req.headers.authorization;
 
@@ -13,17 +13,24 @@ exports.protect = async (req, res, next) => {
 
   if (!token) {
     return next(
-      new ErrorResponse('User not authorized to access this route', 401)
+      new ErrorResponse(
+        'User not authorized to access this route. No token provided',
+        401
+      )
     );
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
+    // req.user = await User.findById(decoded.id);
+    req.user = decoded;
     next();
   } catch (err) {
     return next(
-      new ErrorResponse('User not authorized to access this route', 401)
+      new ErrorResponse(
+        'User not authorized to access this route. Invalid token.',
+        400
+      )
     );
   }
 };
