@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "jest --watchAll --verbose --runInBand --detectOpenHandles --coverage"
+    "test-coverage": "jest --watchAll --verbose --runInBand --detectOpenHandles --coverage",
+    "test": "jest --watchAll --verbose --runInBand --detectOpenHandles"
   },
   "author": "Jakub Figlak",
   "license": "ISC",
