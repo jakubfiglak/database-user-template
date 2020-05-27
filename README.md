@@ -64,4 +64,3 @@ FROM_NAME=
 ## Credits :raised_hands:
 
 Credits to [Brad Traversy](https://www.traversymedia.com/) - this project is based on his course [Node.js API Masterclass](https://www.udemy.com/course/nodejs-api-masterclass/)
-
