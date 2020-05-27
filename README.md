@@ -41,7 +41,7 @@ router.delete('/:id', deleteUser);
 
 This is a template repository, so you can create your own repo based on it by clicking `Use this template`
 
-### Create config.env file in config cirectory
+### Create config.env file in config directory
 
 ```NODE_ENV=development
 PORT=5000
